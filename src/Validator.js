@@ -49,8 +49,9 @@ const Validator = () => {
     return (
         <div className="flex flex-col h-screen pt-10 items-center">
             <EnterPassword className="block w-full" setPassword={setPassword} />
-            {rules.map((r, i) => (
-                <Rule name={i+1} rule={r.rule} hidden={!r.isDisplayed} satisfied={r.satisfied}/>
+            {rules.slice().reverse()
+            .map((r, i) => (
+                <Rule name={r.name} rule={r.rule} hidden={!r.isDisplayed} satisfied={r.satisfied}/>
             ))}
         </div>
     )
