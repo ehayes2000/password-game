@@ -1,22 +1,63 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Rule from "./Rule";
 import EnterPassword from "./EnterPassword"
-
+ 
 const Validator = () => {
     const [password, setPassword] = useState("");
-    const rule_len = {
-        isValid: (p) => p.length >=  8,
-        rule: "password must be at least 8 characters long",
-    }
-   
+    const [rules, setRules] = useState([
+        {
+            name: 1,
+            rule: "password must be at least 5 characters long",
+            isValid: password => password.length >= 5,
+            isDisplayed: false,
+            satisfied: false, 
+            wasValid: false,
+        },    
+        {
+            name: 2,
+            rule: "password must contain a number",
+            isValid: password => /\d/.test(password),
+            isDisplayed: false,
+            satisfied: false,
+            wasValid: false,
+        }
+        // ... add more rules here ...
+    ]);
+
+    useEffect(() => {
+        // First update all 'satisfied' and 'wasValid' properties
+        const updatedRules = rules.map((rule, index) => {
+            const isRuleValid = rule.isValid(password);
+            return {
+                ...rule,
+                satisfied: isRuleValid,
+                wasValid: isRuleValid || rule.wasValid,
+            };
+        });
+    
+        // Then update 'isDisplayed' properties
+        setRules(updatedRules.map((rule, index) => {
+            const shouldRuleBeDisplayed = index === 0 || (updatedRules[index - 1] && updatedRules[index - 1].wasValid);
+            return {
+                ...rule,
+                isDisplayed: shouldRuleBeDisplayed,
+            };
+        }));
+    }, [password]);
+    
 
     return (
-        <div>
-            <EnterPassword setPassword={setPassword}/>
-            <Rule valid={rule_len.isValid(password)} rule={rule_len.rule}/>
-            
+        <div className="flex flex-col h-screen pt-10 items-center">
+            <EnterPassword className="block w-full" setPassword={setPassword} />
+            {rules.map((r, i) => (
+                <Rule name={i+1} rule={r.rule} hidden={!r.isDisplayed} satisfied={r.satisfied}/>
+            ))}
         </div>
     )
-}   
+}
 
-export default Validator;
+
+export default Validator;  // setRules(rules.map((rule, index) => {
+    //     const shouldRuleBeDisplayed = index === 0 || (rules[index - 1] && rules[index - 1].isDisplayed && rules[index -1].wasValid);
+    //     return { ...rule, isDisplayed: shouldRuleBeDisplayed};
+    // }));
