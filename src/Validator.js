@@ -26,7 +26,7 @@ const Validator = () => {
 
     useEffect(() => {
         // First update all 'satisfied' and 'wasValid' properties
-        const updatedRules = rules.map((rule, index) => {
+        let updatedRules = rules.map((rule, index) => {
             const isRuleValid = rule.isValid(password);
             return {
                 ...rule,
@@ -34,10 +34,13 @@ const Validator = () => {
                 wasValid: isRuleValid || rule.wasValid,
             };
         });
-    
+        
         // Then update 'isDisplayed' properties
         setRules(updatedRules.map((rule, index) => {
-            const shouldRuleBeDisplayed = index === 0 || (updatedRules[index - 1] && updatedRules[index - 1].wasValid);
+            let shouldRuleBeDisplayed = updatedRules[index - 1] && updatedRules[index - 1].wasValid;
+            if (password.length > 0 && index == 0) {
+                shouldRuleBeDisplayed = true;
+            }
             return {
                 ...rule,
                 isDisplayed: shouldRuleBeDisplayed,
@@ -58,7 +61,4 @@ const Validator = () => {
 }
 
 
-export default Validator;  // setRules(rules.map((rule, index) => {
-    //     const shouldRuleBeDisplayed = index === 0 || (rules[index - 1] && rules[index - 1].isDisplayed && rules[index -1].wasValid);
-    //     return { ...rule, isDisplayed: shouldRuleBeDisplayed};
-    // }));
+export default Validator; 
