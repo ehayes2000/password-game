@@ -20,7 +20,16 @@ const Validator = () => {
             isDisplayed: false,
             satisfied: false,
             wasValid: false,
-        }
+        },
+        {
+            name: 2,
+            rule: "Password must be lenth 10",
+            isValid: password => password.length === 10,
+            isDisplayed: false,
+            satisfied: false,
+            wasValid: false,
+        },
+
         // ... add more rules here ...
     ]);
 
@@ -37,7 +46,7 @@ const Validator = () => {
         
         // Then update 'isDisplayed' properties
         setRules(updatedRules.map((rule, index) => {
-            let shouldRuleBeDisplayed = rule.wasValid || updatedRules[index - 1] && updatedRules[index - 1].wasValid;
+            let shouldRuleBeDisplayed = updatedRules[index - 1] && updatedRules[index - 1].wasValid;
             if (password.length > 0 && index == 0) {
                 return {
                     ...rule, 
