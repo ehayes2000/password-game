@@ -2,7 +2,7 @@ import { CSSTransition } from 'react-transition-group';
 import '../css/RuleTransitions.css';
 
 
-const Rule = ({ rule, name, satisfied, hidden, }) => (
+const Rule = ({ rule, name, satisfied, hidden}) => (
     <CSSTransition
         in={!hidden}
         timeout={300}

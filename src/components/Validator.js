@@ -1,9 +1,27 @@
 import React, { useEffect, useState } from "react";
 import Rule from "./Rule";
+import CaptchaRule from "./CaptchaRule";
 import EnterPassword from "./EnterPassword"
-import { hasMonth, hasNumeral } from "../rules.js";
- 
+import { hasMonth, 
+        hasNumeral, 
+        hasSponsor, 
+        sponsorContents,
+        multiplyNumerals} from "./rules.definitions.js";
+  
 const Validator = () => {
+    const captchas = [
+        "../ext/captchas/2b827.png", 
+        "../ext/captchas/3cegf.png",
+        "../ext/captchas/8fexn.png",
+        "../ext/captchas/d3c7y.png",
+        "../ext/captchas/mmg38.png",
+        "../ext/captchas/pe4xn.png",
+        "../ext/captchas/w4nfx.png",
+        "../ext/captchas/x775w.png",
+        "../ext/captchas/xgcxy.png",
+        "../ext/captchas/y5g87.png",
+        "../ext/captchas/wmpmp.png",
+    ]
     const [password, setPassword] = useState("");
     const [latestRule, setLatestRule] = useState(0);
     const [rulesActive, setRulesActive] = useState(false);
@@ -62,11 +80,18 @@ const Validator = () => {
         }, 
         {
             name: 8, 
-            rule: "Your password must include one of our sponsors.",
-            isValid: hasNumeral,
+            rule: sponsorContents,
+            isValid: hasSponsor,
             isDisplayed: false,
             satisfied: false,
         }, 
+        {
+            name: 9,
+            rule: "The roman numerals in your password must multiply to 35.",
+            isValid: multiplyNumerals,
+            isDisplayed: false,
+            satisfied: false,
+        }
     ]);
 
     useEffect(() => {
@@ -100,11 +125,13 @@ const Validator = () => {
             <span className="text-6xl inline-block relative" style={{top: '0.2em'}}>*</span> The Password Game
             </h1>
             <EnterPassword className="block" setPassword={setPassword} />
+           
             {rules.slice().reverse()
             .map((r, i) => (
                 <Rule name={r.name} rule={r.rule} hidden={!r.isDisplayed} satisfied={r.satisfied}/>
             ))}
         </div>
+        //<CaptchaRule images={captchas} onImageChange={()=>null}/>
     )
 }
 
