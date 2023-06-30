@@ -89,7 +89,7 @@ const Validator = () => {
 
     return (
         
-        <div className="flex flex-col h-screen pt-10 items-center">
+        <div className="flex flex-col pt-10 items-center">
             <h1 className="text-4xl flex items-center font-serif">
             <span className="text-6xl inline-block relative" style={{top: '0.2em'}}>*</span> The Password Game
             </h1>
