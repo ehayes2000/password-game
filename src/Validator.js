@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import Rule from "./Rule";
 import EnterPassword from "./EnterPassword"
+
+import { hasMonth, hasNumeral } from "./rules.js";
  
 const Validator = () => {
     const [password, setPassword] = useState("");
@@ -43,9 +45,28 @@ const Validator = () => {
                 password.match(/\d/g)?.reduce((acc, i) => acc + parseInt(i), 0) === 25,
             isDisplayed: false,
             satisfied: false,
-        }
-
-        // ... add more rules here ...
+        },
+        {
+            name: 6, 
+            rule: "Your password must include a month.",
+            isValid: hasMonth,
+            isDisplayed: false,
+            satisfied: false,
+        },
+        {
+            name: 7, 
+            rule: "Your password must include a roman numeral.",
+            isValid: hasNumeral,
+            isDisplayed: false,
+            satisfied: false,
+        }, 
+        {
+            name: 8, 
+            rule: "Your password must include one of our sponsors.",
+            isValid: hasNumeral,
+            isDisplayed: false,
+            satisfied: false,
+        }, 
     ]);
 
     useEffect(() => {
@@ -80,6 +101,5 @@ const Validator = () => {
         </div>
     )
 }
-
 
 export default Validator; 
