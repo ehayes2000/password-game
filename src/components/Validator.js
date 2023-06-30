@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 import Rule from "./Rule";
 import EnterPassword from "./EnterPassword"
-
-import { hasMonth, hasNumeral } from "./rules.js";
+import { hasMonth, hasNumeral } from "../rules.js";
  
 const Validator = () => {
     const [password, setPassword] = useState("");
     const [latestRule, setLatestRule] = useState(0);
+    const [rulesActive, setRulesActive] = useState(false);
     const [rules, setRules] = useState([
         {
             name: 1,
@@ -71,6 +71,14 @@ const Validator = () => {
 
     useEffect(() => {
         // First update all 'satisfied' and 'wasValid' properties
+        let active = false;
+        if (password.length > 0){
+            setRulesActive(true);
+            active = true;
+        }
+        if (!rulesActive && !active){
+            return;
+        }
         let updatedRules = [...rules];
         for (let i = 0; i <= latestRule; i++ ){
             if (i >= rules.length)
@@ -86,9 +94,7 @@ const Validator = () => {
         setRules(updatedRules);
     }, [password, latestRule]);
     
-
     return (
-        
         <div className="flex flex-col pt-10 items-center">
             <h1 className="text-4xl flex items-center font-serif">
             <span className="text-6xl inline-block relative" style={{top: '0.2em'}}>*</span> The Password Game
