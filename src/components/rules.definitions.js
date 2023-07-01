@@ -26,7 +26,7 @@ export const hasMonth = (password) => {
 }
 
 export const hasNumeral = (password) => {
-    const digits = ["I", "V", "X", "L", "C", "D", "M"];
+    const digits = ["I", "V", "X"];
     for (let i of digits) {
         if (password.includes(i)) {
             return true
