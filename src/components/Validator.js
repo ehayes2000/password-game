@@ -23,10 +23,11 @@
             "/ext/captchas/wmpmp.png",
         ]
         const [password, setPassword] = useState("");
-        const [latestRule, setLatestRule] = useState(0);
-        const [rulesActive, setRulesActive] = useState(false);
+        //const [activeRules, setActiveRules] = useState(1);
+        const [isRulesActive, setIsRulesActive] = useState(false);
+        const [activeRuleCount, setActiveRuleCount] = useState(0);
         const [captchaVal, setCaptchaVal] = useState(":)");
-        const captchaValRef = React.useRef(captchaVal);
+        const captchaValRef = useRef(captchaVal);
         const [rules, setRules] = useState([
             {
                 name: 1,
@@ -101,7 +102,7 @@
                     <p> Your password must include this CAPTCHA: </p>
                     <CaptchaRule images={captchas} setCaptcha={setCaptchaVal}/>
                 </div>,
-                isValid: password => password.includes(captchaValRef.current),//password => password.includes(captchaVal[0]), //password.includes(captchaVal),
+                isValid: password => password.includes(captchaValRef.current),
                 isDisplayed: false,
                 satisfied: false,
             }
@@ -110,32 +111,35 @@
         useEffect(() => {
             captchaValRef.current = captchaVal;
         }, [captchaVal])
-   
+       
         useEffect(() => {
-            // First update all 'satisfied' and 'wasValid' properties
-            let active = false;
-            if (password.length > 0){
-                setRulesActive(true);
-                active = true;
+            if (password.length > 0 && !isRulesActive){
+                setIsRulesActive(true);
+                setActiveRuleCount(1);
             }
-            if (!rulesActive && !active){
+        }, [password, isRulesActive]);
+
+        useEffect(() => {
+            if (!isRulesActive)
                 return;
-            }
+            let rulesSatisfied = 0;
             let updatedRules = [...rules];
-            for (let i = 0; i <= latestRule; i++ ){
-                if (i >= rules.length)
+            for (let i = 0; i < activeRuleCount; i++) {
+                if (i >= rules.length) 
                     break;
-                const isRuleSatisfied = rules[i].isValid(password);
-                updatedRules[i].satisfied = isRuleSatisfied;
-                updatedRules[i].isDisplayed = true;
-                if (i === latestRule && isRuleSatisfied){
-                    setLatestRule(latestRule + 1);
+                updatedRules[i].isDisplayed = true; // only loop through active rules
+                updatedRules[i].satisfied = updatedRules[i].isValid(password); // update satisfied state
+                if (updatedRules[i].satisfied) {
+                    rulesSatisfied += 1;
+                }
+                if (rulesSatisfied === activeRuleCount){ // if rulesSatisfied === activeRuleCount display the nextRule
+                    setActiveRuleCount(activeRuleCount + 1);
                     break;
                 }
-            }   
+            }
             setRules(updatedRules);
-        }, [password, latestRule, captchaVal]);
-        
+        }, [password, activeRuleCount, isRulesActive, rules])
+      
         return (
             <div className="flex flex-col pt-10 items-center">
                 <h1 className="text-4xl flex items-center font-serif">
