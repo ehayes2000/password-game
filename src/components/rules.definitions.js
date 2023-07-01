@@ -59,7 +59,7 @@ export const sponsorContents =
 
 export const multiplyNumerals = (password) => {
     const getDigits = (password) => {
-        const digits = new Set(["I", "V", "X", "L", "C", "D", "M"]);
+        const digits = new Set(["I", "V", "X"]);
         let numerals = [];
         let numeral = "";
         for (let i of password){
