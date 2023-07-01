@@ -117,7 +117,7 @@
                 setIsRulesActive(true);
                 setActiveRuleCount(1);
             }
-        }, [password, isRulesActive]);
+        }, [password]);
 
         useEffect(() => {
             if (!isRulesActive)
@@ -138,7 +138,7 @@
                 }
             }
             setRules(updatedRules);
-        }, [password, activeRuleCount, isRulesActive, rules])
+        }, [password, activeRuleCount])
       
         return (
             <div className="flex flex-col pt-10 items-center">
