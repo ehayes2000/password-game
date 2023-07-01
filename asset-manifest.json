@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/password-game/static/css/main.ef2951dc.css",
-    "main.js": "/password-game/static/js/main.6d3316f2.js",
+    "main.js": "/password-game/static/js/main.11ebef77.js",
     "static/js/787.7ef191e1.chunk.js": "/password-game/static/js/787.7ef191e1.chunk.js",
     "index.html": "/password-game/index.html",
     "main.ef2951dc.css.map": "/password-game/static/css/main.ef2951dc.css.map",
-    "main.6d3316f2.js.map": "/password-game/static/js/main.6d3316f2.js.map",
+    "main.11ebef77.js.map": "/password-game/static/js/main.11ebef77.js.map",
     "787.7ef191e1.chunk.js.map": "/password-game/static/js/787.7ef191e1.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.ef2951dc.css",
-    "static/js/main.6d3316f2.js"
+    "static/js/main.11ebef77.js"
   ]
 }
